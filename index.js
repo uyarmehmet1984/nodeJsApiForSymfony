@@ -15,7 +15,7 @@ const db = mysql.createConnection({
 // MySQL bağlantısını kontrol etme
 db.connect((err) => {
   if (err) {
-    console.error('MySQL bağlantısı başarısız: ' + err.stack);
+    console.error('MySQL bağlantısı başarısızzz: ' + err.stack);
     return;
   }
   console.log('MySQL bağlantısı başarıyla sağlandı.');
