@@ -1,121 +1,172 @@
+// const express = require('express');
+// const mysql = require('mysql');
+// const bodyParser = require('body-parser');
+
+// const app = express();
+// const port = 3000;
+
+// app.use(bodyParser.json());
+
+// // MySQL bağlantısı
+// const db = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root', // MySQL kullanıcı adınız
+//   password: '', // MySQL şifreniz
+//   database: 'mebotomasyondb' // Veritabanı adı
+// });
+
+// db.connect((err) => {
+//   if (err) {
+//     console.error('MySQL bağlantısı başarısız: ' + err.message);
+//   } else {
+//     console.log('MySQL bağlantısı başarılı.');
+//   }
+// });
+
+// // GET: Tüm kitapları listele
+// app.get('/books', (req, res) => {
+//   db.query('SELECT * FROM book', (err, results) => {
+//     if (err) {
+//       res.status(500).send('Veritabanı hatası: ' + err.message);
+//     } else {
+//       res.json(results);
+//     }
+//   });
+// });
+
+// // GET: Belirli bir kitabı getir
+// app.get('/books/:id', (req, res) => {
+//   const bookId = req.params.id;
+//   db.query('SELECT * FROM book WHERE id = ?', [bookId], (err, results) => {
+//     if (err) {
+//       res.status(500).send('Veritabanı hatası: ' + err.message);
+//     } else if (results.length === 0) {
+//       res.status(404).send('Kitap bulunamadı.');
+//     } else {
+//       res.json(results[0]);
+//     }
+//   });
+// });
+
+// // POST: Yeni bir kitap ekle
+// app.post('/books', (req, res) => {
+//   const newBook = req.body;
+//   // Veri doğrulama
+//   if (!newBook.ad || !newBook.yazar || !newBook.sayfa_sayisi || !newBook.isbn || !newBook.sayi) {
+//     return res.status(400).send('Eksik bilgi, lütfen tüm alanları doldurun.');
+//   }
+//   console.log(newBook);//NE geliyor bakalım
+//   db.query('INSERT INTO book (ad, yazar, sayfa_sayisi, isbn, sayi) VALUES (?, ?, ?, ?, ?)',
+//     [newBook.ad, newBook.yazar, newBook.sayfa_sayisi, newBook.isbn, newBook.sayi],
+//     (err, results) => {
+//       if (err) {
+//         console.error('Veritabanı hatası: ' + err.message);
+//         res.status(500).send('Veritabanı hatası: ' + err.message);
+//       } else {
+//         console.log('Kitap başarıyla eklendi. ID: ' + results.insertId);
+//         res.status(201).send('Kitap başarıyla eklendi. ID: ' + results.insertId);
+//       }
+//     });
+// });
+
+
+// // PUT: Belirli bir kitabı güncelle
+// app.put('/books/:id', (req, res) => {
+//   const bookId = req.params.id;
+//   const updatedBook = req.body;
+//   const { ad, yazar, sayfa_sayisi, isbn, sayi } = updatedBook;
+
+//   db.query(
+//     'UPDATE book SET ad=?, yazar=?, sayfa_sayisi=?, isbn=?, sayi=? WHERE id = ?',
+//     [ad, yazar, sayfa_sayisi, isbn, sayi, bookId],
+//     (err, results) => {
+//       if (err) {
+//         res.status(500).send('Veritabanı hatası: ' + err.message);
+//       } else if (results.affectedRows === 0) {
+//         res.status(404).send('Kitap bulunamadı.');
+//       } else {
+//         res.send('Kitap başarıyla güncellendi.');
+//       }
+//     }
+//   );
+// });
+
+
+
+// // DELETE: Belirli bir kitabı sil
+// app.delete('/books/:id', (req, res) => {
+//   const bookId = req.params.id;
+//   db.query('DELETE FROM book WHERE id = ?', [bookId], (err, results) => {
+//     if (err) {
+//       res.status(500).send('Veritabanı hatası: ' + err.message);
+//     } else if (results.affectedRows === 0) {
+//       res.status(404).send('Kitap bulunamadı.');
+//     } else {
+//       res.send('Kitap başarıyla silindi.');
+//     }
+//   });
+// });
+
+// // GET: Kitapları filtreleme ve sıralama
+// app.get('/books', (req, res) => {
+//   let query = 'SELECT yazar FROM book';
+
+//   // Filtreleme
+//   const { yazar, sort } = req.query;
+//   if (yazar) {
+//     query += ` WHERE yazar = '${yazar}'`;
+//   }
+
+//   // Sıralama
+//   if (sort) {
+//     const validSortOrders = ['asc', 'desc'];
+//     const sortOrder = validSortOrders.includes(sort) ? sort.toUpperCase() : 'ASC';
+//     query += ` ORDER BY ad ${sortOrder}`;
+//   }
+// // Hata Middleware'i
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send('Bir şeyler ters gitti!');
+// });
+//   db.query(query, (err, results) => {
+//     if (err) {
+//       res.status(500).send('Veritabanı hatası: ' + err.message);
+//     } else {
+//       res.json(results);
+//     }
+//   });
+// });
+
+
+
+
+// // Sunucuyu dinle
+// app.listen(port, () => {
+//   console.log(`Server listening at http://localhost:${port}`);
+// });
+
+// index.js
 const express = require('express');
-const mysql = require('mysql');
+const bodyParser = require('body-parser');
+const bookRoutes = require('./routes/book');  // routes/book.js dosyanızın yolu
+const db = require('./db');
 
 const app = express();
 const port = 3000;
 
-// MySQL bağlantısı
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',  // MySQL kullanıcı adınız
-  password: '198402',  // MySQL şifreniz
-  database: 'mebotomasyondb'  // Databasenizin adı
+// Middleware
+app.use(bodyParser.json());
+
+// Rotalar
+app.use(bookRoutes);
+
+// Ana sayfa
+app.get('/', (req, res) => {
+  res.send('Merhaba, Express uygulamasına hoş geldiniz!');
 });
 
-// MySQL bağlantısını kontrol etme
-db.connect((err) => {
-  if (err) {
-    console.error('MySQL bağlantısı başarısızzz: ' + err.stack);
-    return;
-  }
-  console.log('MySQL bağlantısı başarıyla sağlandı.');
-});
-
-// Express middleware
-app.use(express.json());
-
-// Kitapları listeleme endpoint'i
-app.get('/api/books', (req, res) => {
-  const sql = 'SELECT * FROM book';
-  db.query(sql, (err, results) => {
-    if (err) {
-      res.status(500).json({ error: 'Veritabanı hatası' });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-// Kitap ekleme endpoint'i
-app.post('/api/books', (req, res) => {
-  const { ad, yazar, sayfa_sayisi, isbn, sayi } = req.body;
-  const sql = 'INSERT INTO book (ad, yazar, sayfa_sayisi, isbn, sayi) VALUES (?, ?, ?, ?, ?)';
-
-  const values = [ad, yazar, sayfa_sayisi, isbn, sayi];
-
-  db.query(sql, values, (err, result) => {
-    if (err) {
-      res.status(500).json({ error: 'Veritabanına kitap eklenirken bir hata oluştu' });
-      return;
-    }
-    res.json({ message: 'Kitap başarıyla eklendi', id: result.insertId });
-  });
-});
-
-// Kitap detayını getirme endpoint'i
-app.get('/api/books/:id', (req, res) => {
-    const bookId = req.params.id;
-    const sql = 'SELECT * FROM book WHERE id = ?';
-  
-    db.query(sql, [bookId], (err, results) => {
-      if (err) {
-        res.status(500).json({ error: 'Veritabanı hatası' });
-        return;
-      }
-  
-      if (results.length === 0) {
-        res.status(404).json({ error: 'Kitap bulunamadı' });
-        return;
-      }
-  
-      res.json(results[0]);
-    });
-  });
-
-  // Kitap güncelleme endpoint'i (PUT)
-app.put('/api/books/:id', (req, res) => {
-    const bookId = req.params.id;
-    const { ad, yazar, sayfa_sayisi, isbn, sayi } = req.body;
-    const sql = 'UPDATE book SET ad=?, yazar=?, sayfa_sayisi=?, isbn=?, sayi=? WHERE id=?';
-    const values = [ad, yazar, sayfa_sayisi, isbn, sayi, bookId];
-  
-    db.query(sql, values, (err, result) => {
-      if (err) {
-        res.status(500).json({ error: 'Veritabanında kitap güncellenirken bir hata oluştu' });
-        return;
-      }
-  
-      if (result.affectedRows === 0) {
-        res.status(404).json({ error: 'Güncellenecek kitap bulunamadı' });
-        return;
-      }
-  
-      res.json({ message: 'Kitap başarıyla güncellendi' });
-    });
-  });
-
-  // Kitap kısmi güncelleme endpoint'i (PATCH)
-app.patch('/api/books/:id', (req, res) => {
-    const bookId = req.params.id;
-    const updatedFields = req.body;
-    const sql = 'UPDATE book SET ad=? WHERE id=?';
-  
-    db.query(sql, [updatedFields, bookId], (err, result) => {
-      if (err) {
-        res.status(500).json({ error: 'Veritabanında kitap güncellenirken bir hata oluştu' });
-        return;
-      }
-  
-      if (result.affectedRows === 0) {
-        res.status(404).json({ error: 'Güncellenecek kitap bulunamadı' });
-        return;
-      }
-  
-      res.json({ message: 'Kitap başarıyla güncellendi' });
-    });
-  });
-
-// Server'ı dinleme
+// Server'ı başlat
 app.listen(port, () => {
-  console.log(`Server ${port} portunda çalışıyor`);
+  console.log(`Server ${port} portunda çalışıyor.`);
 });
+
