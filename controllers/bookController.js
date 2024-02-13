@@ -1,5 +1,5 @@
 // bookController.js
-const bookModel = require('../models/bookModel');
+const bookModel = require('../models/bookmodels');
 
 // GET: Tüm kitapları getir
 exports.getAllBooks = (req, res) => {
@@ -82,7 +82,7 @@ exports.getBooksPaginated = (req, res) => {
 
   // Sayfa numarası ve sayfa boyutunu kontrol et
   const pageNumber = parseInt(page) || 1;
-  const pageSizeNumber = parseInt(pageSize) || 10;
+  const pageSizeNumber = parseInt(pageSize) || 3;
 
   bookModel.getBooksPaginated(pageNumber, pageSizeNumber, sort, yazar, (err, results) => {
     if (err) {
