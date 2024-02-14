@@ -149,10 +149,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bookRoutes = require('./routes/book');  // routes/book.js dosyanızın yolu
-const db = require('./db');
+const db = require('./db_mysql');
+require('express-async-errors'); // eklentiyi projeye ekleyin
 
 const app = express();
-const port = 100;
+const port = 5000;
 
 // Middleware
 app.use(bodyParser.json());
@@ -162,7 +163,7 @@ app.use(bookRoutes);
 
 // Ana sayfa
 app.get('/', (req, res) => {
-  res.send('Merhaba, Express uygulamasına hoş geldiniz!');
+  res.send('Merhaba, Express uygulamasına hoş geldiniz');
 });
 
 // Server'ı başlat

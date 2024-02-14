@@ -1,0 +1,24 @@
+
+Bu kodlar, bir kitap veritabanı uygulamasının temel yapı taşlarını oluşturan bir Express.js uygulamasını içermektedir. İşte her dosyanın yaptığı temel görevler:
+
+*bookController.js: Bu dosya, HTTP isteklerine cevap veren kontrolör işlevlerini içerir. 
+İsteklere uygun olarak kitapları getirme, belirli bir kitabı getirme, yeni kitap ekleme, kitap güncelleme, kitap silme ve sayfalı kitapları getirme gibi işlemleri gerçekleştirir. 
+Kontrolörler, iş mantığı ile veritabanı işlemleri arasında bir köprü görevi görür.
+
+
+*bookmodels.js: Bu dosya, kitap veritabanı işlemlerini gerçekleştiren model işlevlerini içerir. 
+getAllBooks, getBookById, addBook, updateBook, deleteBook, ve getBooksPaginated gibi temel CRUD (Create, Read, Update, Delete) işlemlerini içerir. Model, veritabanı bağlantısını ve sorgularını içerir.
+
+
+*book.js: Bu dosya, Express.js yönlendirme işlemlerini içerir. 
+HTTP isteklerine uygun olarak belirli bir kontrolör işlevini çağırarak yönlendirme işlemlerini gerçekleştirir. 
+Örneğin, /books endpoint'ine yapılan GET isteği, bookController.getAllBooks işlemini çağırarak tüm kitapları getirir.
+
+
+*db.js: Bu dosya, MySQL veritabanına bağlantıyı sağlar. Veritabanı konfigürasyon bilgilerini içerir ve bağlantıyı oluşturur.*
+
+index.js: Bu dosya, Express uygulamasını başlatan ana dosyadır. Express uygulamasını oluşturur, middleware'leri ayarlar, 
+rotaları ekler ve ardından belirtilen port üzerinde server'ı başlatır.
+
+Yaptığınız şey, bir Express uygulaması oluşturarak, kitap veritabanı işlemlerini gerçekleştiren bir API sağlamak ve bu API'ı
+ belirli HTTP istekleriyle etkileşimde bulunabilir hale getirmektir. Bu, genellikle bir RESTful API tasarımının temel prensiplerine uygun olarak yapılmış gibi görünüyor.

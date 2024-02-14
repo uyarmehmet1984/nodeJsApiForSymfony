@@ -1,5 +1,5 @@
 // bookModel.js
-const db = require('../db');
+const db = require('../db_mysql');
 
 // Tüm kitapları getir
 exports.getAllBooks = (callback) => {
