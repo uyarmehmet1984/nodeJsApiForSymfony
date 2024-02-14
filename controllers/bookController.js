@@ -11,7 +11,6 @@ exports.getAllBooks = (req, res) => {
     }
   });
 };
-
 // GET: Belirli bir kitabı getir
 exports.getBookById = (req, res) => {
   const bookId = req.params.id;
