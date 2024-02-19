@@ -29,7 +29,8 @@ const atlasConnectionString = 'mongodb+srv://ssinem06:198402@cluster0.ypcz8d2.mo
 
 
 // MongoDB'ye bağlanma işlemi
-mongoose.connect(atlasConnectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(atlasConnectionString);
+
 
 const db = mongoose.connection;
 
