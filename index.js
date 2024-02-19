@@ -149,6 +149,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bookRoutes = require('./routes/book');  // routes/book.js dosyanızın yolu
+const userRooutes = require('./routes/user');  // routes/user.js dosyanızın yolu
 const db = require('./db_mysql');
 require('express-async-errors'); // eklentiyi projeye ekleyin
 
@@ -161,6 +162,7 @@ app.use(bodyParser.json());
 
 // Rotalar
 app.use(bookRoutes);
+app.use(userRooutes);
 
 // Ana sayfa
 app.get('/', (req, res) => {

@@ -110,12 +110,12 @@ exports.getBooksPaginated = async (req, res) => {
 
 // Sıralama
 const sortOrder = sort === 'asc' ? 1 : -1;
-options.sort = { ad: sortOrder };
+options.sort = { yazar: sortOrder }; // yazar alanına göre sıralama yapılacak
 
 // MongoDB'den verileri çekme
 const books = await Book.find(query, null, options);
 
-const totalBooks = await Book.countDocuments(searchQuery);
+const totalBooks = await Book.countDocuments(query);
 const totalPages = Math.ceil(totalBooks / pageSizeNumber);
 
 res.json(books);
