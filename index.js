@@ -153,11 +153,8 @@ const db = require('./db_mysql');
 require('express-async-errors'); // eklentiyi projeye ekleyin
 
 const app = express();
-<<<<<<< Updated upstream
-const port = 5000;
-=======
 const port = 3000;
->>>>>>> Stashed changes
+
 
 // Middleware
 app.use(bodyParser.json());
