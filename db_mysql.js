@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const dbConfig = {
   host: 'localhost',
   user: 'root',
-  password: '198402',
+  password: '',
   database: 'mebotomasyondb'
 };
 

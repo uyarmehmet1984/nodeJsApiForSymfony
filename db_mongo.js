@@ -23,8 +23,13 @@
 const mongoose = require('mongoose');
 
 // MongoDB Atlas bağlantı dizesi
-const atlasConnectionString = 'mongodb+srv://mehmetmeb06:198402@test-pro-db.zcdgzxm.mongodb.net/?retryWrites=true&w=majority';
+const atlasConnectionString = 'mongodb+srv://ssinem06:198402@cluster0.ypcz8d2.mongodb.net/?retryWrites=true&w=majority';
 
+
+
+
+// MongoDB'ye bağlanma işlemi
+mongoose.connect(atlasConnectionString);
 
 
 const db = mongoose.connection;
@@ -35,9 +40,9 @@ db.on('error', (err) => {
 
 db.once('open', () => {
   console.log('MongoDB bağlantısı başarılı.');
-});
 
-module.exports = db;
+  // MongoDB işlemlerini buraya ekleyebilirsiniz
+});
 
 
 
